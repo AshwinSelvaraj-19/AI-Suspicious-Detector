@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PHOENIX — Deep Scan</title>
+  <link rel="stylesheet" href="scan.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <div class="scan-bg">
+    <canvas id="scan-canvas"></canvas>
+  </div>
+
+  <div class="scan-shell">
+
+    <!-- TOP BAR -->
+    <header class="scan-header">
+      <div class="sh-brand">
+        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" width="22">
+          <path d="M16 2L28 8V18C28 24 22 29 16 30C10 29 4 24 4 18V8L16 2Z" stroke="url(#sg)" stroke-width="1.5" fill="none"/>
+          <path d="M12 16L15 19L20 13" stroke="url(#sg)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <defs><linearGradient id="sg" x1="4" y1="2" x2="28" y2="30" gradientUnits="userSpaceOnUse"><stop stop-color="#ff6b35"/><stop offset="1" stop-color="#ff2e00"/></linearGradient></defs>
+        </svg>
+        <span>PHOENIX</span>
+      </div>
+      <div class="sh-session">
+        NEURAL LINK <span id="session-id">—</span>
+      </div>
+    </header>
+
+    <!-- MAIN SCAN UI -->
+    <main class="scan-main">
+
+      <!-- Ring -->
+      <div class="ring-wrap">
+        <svg class="ring-svg" viewBox="0 0 300 300">
+          <!-- outer decorative rings -->
+          <circle cx="150" cy="150" r="140" fill="none" stroke="rgba(255,107,53,0.06)" stroke-width="1"/>
+          <circle cx="150" cy="150" r="125" fill="none" stroke="rgba(255,107,53,0.08)" stroke-width="1" stroke-dasharray="4 8"/>
+          <!-- progress track -->
+          <circle cx="150" cy="150" r="110" fill="none" stroke="rgba(255,107,53,0.08)" stroke-width="8"/>
+          <!-- progress arc -->
+          <circle id="progress-arc"
+            cx="150" cy="150" r="110"
+            fill="none"
+            stroke="url(#arc-grad)"
+            stroke-width="8"
+            stroke-linecap="round"
+            stroke-dasharray="691.15"
+            stroke-dashoffset="691.15"
+            transform="rotate(-90 150 150)"
+          />
+          <!-- inner ring -->
+          <circle cx="150" cy="150" r="90" fill="none" stroke="rgba(255,107,53,0.06)" stroke-width="1"/>
+          <!-- rotating dashes -->
+          <circle id="spin-ring" cx="150" cy="150" r="98"
+            fill="none" stroke="rgba(255,107,53,0.25)" stroke-width="1"
+            stroke-dasharray="3 12"/>
+          <!-- center glow -->
+          <circle cx="150" cy="150" r="55" fill="url(#center-grad)" opacity="0.15"/>
+          <!-- tick marks -->
+          <g id="ticks"></g>
+          <defs>
+            <linearGradient id="arc-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#ff2e00"/>
+              <stop offset="100%" stop-color="#ff6b35"/>
+            </linearGradient>
+            <radialGradient id="center-grad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#ff6b35"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+          </defs>
+        </svg>
+
+        <!-- Center content -->
+        <div class="ring-center">
+          <div class="ring-percent" id="ring-percent">0<span>%</span></div>
+          <div class="ring-label">MONITOR SCAN</div>
+        </div>
+
+        <!-- Scan beam overlay -->
+        <div class="scan-beam"></div>
+      </div>
+
+      <!-- Phase message -->
+      <div class="phase-wrap">
+        <div class="phase-prefix">›</div>
+        <div class="phase-text" id="phase-text">Initializing Phoenix Engine...</div>
+        <div class="phase-cursor">_</div>
+      </div>
+
+      <!-- Stage list -->
+      <div class="stages">
+        <div class="stage" data-stage="0">
+          <span class="stage-icon">◯</span>
+          <span class="stage-name">Initializing Phoenix Engine</span>
+          <span class="stage-bar"><span class="stage-fill"></span></span>
+          <span class="stage-pct">0%</span>
+        </div>
+        <div class="stage" data-stage="1">
+          <span class="stage-icon">◯</span>
+          <span class="stage-name">Scanning Active Processes</span>
+          <span class="stage-bar"><span class="stage-fill"></span></span>
+          <span class="stage-pct">0%</span>
+        </div>
+        <div class="stage" data-stage="2">
+          <span class="stage-icon">◯</span>
+          <span class="stage-name">Analyzing Behavioral Patterns</span>
+          <span class="stage-bar"><span class="stage-fill"></span></span>
+          <span class="stage-pct">0%</span>
+        </div>
+        <div class="stage" data-stage="3">
+          <span class="stage-icon">◯</span>
+          <span class="stage-name">Calculating Threat Heat Index</span>
+          <span class="stage-bar"><span class="stage-fill"></span></span>
+          <span class="stage-pct">0%</span>
+        </div>
+        <div class="stage" data-stage="4">
+          <span class="stage-icon">◯</span>
+          <span class="stage-name">Deploying Cyber Resilience Shield</span>
+          <span class="stage-bar"><span class="stage-fill"></span></span>
+          <span class="stage-pct">0%</span>
+        </div>
+      </div>
+
+      <!-- Log stream -->
+      <div class="log-stream" id="log-stream">
+        <div class="log-entry">[PHOENIX] Cybernetic boot sequence initiated...</div>
+      </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="scan-footer">
+      <span>PHOENIX NEURAL DEFENSE ENGINE v5.0.0</span>
+      <span id="scan-time">00:00</span>
+      <span>CYBER RESILIENCE LINK ACTIVE</span>
+    </footer>
+  </div>
+
+  <script src="scan.js"></script>
+</body>
+</html>
