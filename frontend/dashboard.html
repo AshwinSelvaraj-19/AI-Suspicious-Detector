@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PHOENIX — Real-Time Security Monitor</title>
-    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="/static/dashboard.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -39,17 +39,13 @@
         </div>
 
         <nav>
-            <a href="#" class="nav-item active">
+            <a href="#" id="navDashboard" class="nav-item active">
                 <span class="nav-icon">📊</span>
                 Dashboard
             </a>
-            <a href="#" class="nav-item">
+            <a href="#" id="navThreatMonitor" class="nav-item">
                 <span class="nav-icon">🛡️</span>
                 Threat Monitor
-            </a>
-            <a href="#" class="nav-item">
-                <span class="nav-icon">⚙️</span>
-                System Monitor
             </a>
         </nav>
     </aside>
@@ -76,39 +72,86 @@
             </div>
         </header>
 
-        <!-- OVERVIEW CARDS -->
-        <section class="overview-grid">
-            <div class="stat-card">
-                <div class="card-label">Total Processes</div>
-                <div id="totalProcesses" class="card-value font-mono">0</div>
+        <!-- ═══════════════════════════════════════════════ -->
+        <!-- DASHBOARD VIEW (visible by default)           -->
+        <!-- ═══════════════════════════════════════════════ -->
+        <div id="dashboardView">
+
+            <!-- OVERVIEW CARDS -->
+            <section class="overview-grid">
+                <div class="stat-card">
+                    <div class="card-label">Total Processes</div>
+                    <div id="totalProcesses" class="card-value font-mono">0</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="card-label">Suspicious Processes</div>
+                    <div id="threatCount" class="card-value font-mono">0</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="card-label">High Risk Processes</div>
+                    <div id="highRisk" class="card-value danger font-mono">0</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="card-label">CPU Usage</div>
+                    <div id="cpuGauge" class="card-value cyan font-mono">0%</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="card-label">RAM Usage</div>
+                    <div id="ramGauge" class="card-value purple font-mono">0%</div>
+                </div>
+            </section>
+
+            <!-- RUNNING PROCESSES TABLE -->
+            <div class="card-panel table-panel processes-panel">
+                <div class="panel-header">Running Processes</div>
+                <div class="table-wrapper processes-table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 80px;">PID</th>
+                                <th>Process Name</th>
+                                <th style="width: 90px;">CPU %</th>
+                                <th style="width: 90px;">RAM %</th>
+                                <th style="width: 110px;">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="processesTable">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
-            <div class="stat-card">
-                <div class="card-label">Suspicious Processes</div>
-                <div id="threatCount" class="card-value font-mono">0</div>
+            <!-- LIVE CHARTS -->
+            <div class="dashboard-charts-row">
+                <div class="card-panel chart-panel">
+                    <div class="panel-header">Live CPU Graph</div>
+                    <div class="chart-container">
+                        <canvas id="cpuChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="card-panel chart-panel">
+                    <div class="panel-header">Live RAM Graph</div>
+                    <div class="chart-container">
+                        <canvas id="ramChart"></canvas>
+                    </div>
+                </div>
             </div>
 
-            <div class="stat-card">
-                <div class="card-label">High Risk Processes</div>
-                <div id="highRisk" class="card-value danger font-mono">0</div>
-            </div>
+        </div>
 
-            <div class="stat-card">
-                <div class="card-label">CPU Usage</div>
-                <div id="cpuGauge" class="card-value cyan font-mono">0%</div>
-            </div>
+        <!-- ═══════════════════════════════════════════════ -->
+        <!-- THREAT MONITOR VIEW (hidden by default)        -->
+        <!-- ═══════════════════════════════════════════════ -->
+        <div id="threatView" class="hidden">
+            <div class="threat-monitor-grid">
 
-            <div class="stat-card">
-                <div class="card-label">RAM Usage</div>
-                <div id="ramGauge" class="card-value purple font-mono">0%</div>
-            </div>
-        </section>
-
-        <!-- MAIN SECURE DECK -->
-        <section class="dashboard-grid">
-            
-            <!-- LEFT COLUMN: THREAT TABLE -->
-            <div class="left-column">
+                <!-- LEFT: THREAT TABLE (moved from dashboardView) -->
                 <div class="card-panel table-panel">
                     <div class="panel-header">Live Threat Table</div>
                     <div class="table-wrapper">
@@ -129,12 +172,8 @@
                         </table>
                     </div>
                 </div>
-            </div>
 
-            <!-- RIGHT COLUMN: DETAILS & CHARTS -->
-            <div class="right-column">
-                
-                <!-- THREAT DETAILS PANEL -->
+                <!-- RIGHT: THREAT DETAILS (moved from dashboardView) -->
                 <div class="card-panel details-panel">
                     <div class="panel-header">Threat Details Panel</div>
                     <div id="detailsContent" class="details-content">
@@ -142,33 +181,40 @@
                             No active threats detected.<br><br>Process details will appear here when a suspicious process is identified.
                         </div>
                     </div>
-                </div>
-
-                <!-- LIVE CHARTS -->
-                <div class="charts-row">
-                    <div class="card-panel chart-panel">
-                        <div class="panel-header">Live CPU Graph</div>
-                        <div class="chart-container">
-                            <canvas id="cpuChart"></canvas>
-                        </div>
-                    </div>
-
-                    <div class="card-panel chart-panel">
-                        <div class="panel-header">Live RAM Graph</div>
-                        <div class="chart-container">
-                            <canvas id="ramChart"></canvas>
-                        </div>
+                    <!-- THREAT ACTION BUTTONS -->
+                    <div class="threat-actions" id="threatActions">
+                        <button id="btnOpenLocation" class="action-btn action-btn-secondary" disabled>
+                            <span class="btn-icon">📂</span> Open Location
+                        </button>
+                        <button id="btnAnalyze" class="action-btn action-btn-primary" disabled>
+                            <span class="btn-icon">🔬</span> Analyze
+                        </button>
                     </div>
                 </div>
 
             </div>
-
-        </section>
+        </div>
 
     </main>
 
 </div>
 
-<script src="dashboard.js"></script>
+<!-- ANALYZE MODAL -->
+<div id="analyzeModal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-box">
+        <div class="modal-header">
+            <span id="modalTitle">🔬 Deep Process Analysis</span>
+            <button id="closeModal" class="modal-close" aria-label="Close">✕</button>
+        </div>
+        <div id="modalContent" class="modal-content">
+            <!-- Populated dynamically -->
+        </div>
+    </div>
+</div>
+
+<!-- TOAST NOTIFICATION CONTAINER -->
+<div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+<script src="/static/dashboard.js"></script>
 </body>
 </html>

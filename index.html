@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="PHOENIX — Real-time security monitoring and threat detection platform for modern enterprises." />
+  <title>PHOENIX — Security Monitoring Platform</title>
+  <link rel="stylesheet" href="landing.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════ NAV ═══════════════════════════════ -->
+  <header class="nav-header" id="nav-header">
+    <nav class="nav-inner">
+      <a href="#" class="nav-logo" aria-label="PHOENIX Home">
+        <svg class="logo-mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M16 2L4 8v8c0 7.18 5.16 13.9 12 15.93C22.84 29.9 28 23.18 28 16V8L16 2z" stroke="var(--accent)" stroke-width="1.5" fill="none"/>
+          <path d="M16 7L9 10.5V16c0 4.19 3.01 8.11 7 9.28 3.99-1.17 7-5.09 7-9.28v-5.5L16 7z" fill="var(--accent)" opacity="0.15"/>
+          <path d="M12 16l2.5 2.5L20 13" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="logo-text">PHOENIX</span>
+      </a>
+
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#features" class="nav-link">Features</a></li>
+        <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
+        <li><a href="#platform" class="nav-link">Platform</a></li>
+        <li><a href="#stack" class="nav-link">Tech Stack</a></li>
+        <li><a href="#about" class="nav-link">About</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <div class="nav-clock" id="nav-clock" aria-live="polite" aria-atomic="true"></div>
+        <a href="#about" class="btn btn-outline btn-sm">View Project</a>
+      </div>
+
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- ═══════════════════════════════ HERO ══════════════════════════════ -->
+    <section class="section hero-section" id="hero">
+      <div class="hero-grid">
+
+        <div class="hero-content reveal-left">
+          <div class="eyebrow">Real-Time Security Platform</div>
+          <h1 class="hero-headline">
+            Visibility into<br />
+            every threat.<br />
+            <span class="headline-accent">Before it moves.</span>
+          </h1>
+          <p class="hero-body">
+            PHOENIX gives security teams continuous process-level monitoring,
+            behavioral anomaly detection, and structured incident logging —
+            built to surface the signals that matter.
+          </p>
+          <div class="hero-cta-group">
+            <a href="#how-it-works" class="btn btn-primary">See How It Works</a>
+            <a href="#features" class="btn btn-ghost">Explore Features</a>
+          </div>
+
+          <div class="hero-trust-row">
+            <div class="trust-pill">
+              <span class="trust-dot"></span>
+              Process-level visibility
+            </div>
+            <div class="trust-pill">
+              <span class="trust-dot"></span>
+              Behavioral detection
+            </div>
+            <div class="trust-pill">
+              <span class="trust-dot"></span>
+              Structured incident logs
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual reveal-right" aria-hidden="true">
+          <!-- Architectural shield lattice — PHOENIX signature element -->
+          <svg class="shield-lattice" viewBox="0 0 480 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="shieldGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#4F7FFF" stop-opacity="0.8"/>
+                <stop offset="100%" stop-color="#1E3A5F" stop-opacity="0.2"/>
+              </linearGradient>
+              <linearGradient id="glowLine" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#4F7FFF" stop-opacity="0"/>
+                <stop offset="50%" stop-color="#4F7FFF" stop-opacity="0.9"/>
+                <stop offset="100%" stop-color="#4F7FFF" stop-opacity="0"/>
+              </linearGradient>
+              <filter id="glow">
+                <feGaussianBlur stdDeviation="3" result="blur"/>
+                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+              <clipPath id="shieldClip">
+                <path d="M240 30L60 100v140c0 110 80 210 180 240 100-30 180-130 180-240V100L240 30z"/>
+              </clipPath>
+            </defs>
+
+            <!-- Outer shield outline -->
+            <path d="M240 30L60 100v140c0 110 80 210 180 240 100-30 180-130 180-240V100L240 30z"
+                  stroke="#4F7FFF" stroke-width="1.5" fill="none" opacity="0.5" filter="url(#glow)"/>
+
+            <!-- Middle shield -->
+            <path d="M240 70L100 125v115c0 88 64 168 140 192 76-24 140-104 140-192V125L240 70z"
+                  stroke="#4F7FFF" stroke-width="1" fill="none" opacity="0.3"/>
+
+            <!-- Inner shield -->
+            <path d="M240 110L145 148v92c0 66 48 126 95 144 47-18 95-78 95-144v-92L240 110z"
+                  stroke="#4F7FFF" stroke-width="1" fill="url(#shieldGrad)" opacity="0.2"/>
+
+            <!-- Grid lines clipped to shield shape -->
+            <g clip-path="url(#shieldClip)" opacity="0.12">
+              <!-- Horizontal lines -->
+              <line x1="60" y1="150" x2="420" y2="150" stroke="#4F7FFF" stroke-width="0.75"/>
+              <line x1="60" y1="200" x2="420" y2="200" stroke="#4F7FFF" stroke-width="0.75"/>
+              <line x1="60" y1="250" x2="420" y2="250" stroke="#4F7FFF" stroke-width="0.75"/>
+              <line x1="60" y1="300" x2="420" y2="300" stroke="#4F7FFF" stroke-width="0.75"/>
+              <line x1="60" y1="350" x2="420" y2="350" stroke="#4F7FFF" stroke-width="0.75"/>
+              <line x1="60" y1="400" x2="420" y2="400" stroke="#4F7FFF" stroke-width="0.75"/>
+              <!-- Vertical lines -->
+              <line x1="150" y1="30" x2="150" y2="480" stroke="#4F7FFF" stroke-width="0.75"/>
+              <line x1="200" y1="30" x2="200" y2="480" stroke="#4F7FFF" stroke-width="0.75"/>
+              <line x1="250" y1="30" x2="250" y2="480" stroke="#4F7FFF" stroke-width="0.75"/>
+              <line x1="300" y1="30" x2="300" y2="480" stroke="#4F7FFF" stroke-width="0.75"/>
+              <line x1="350" y1="30" x2="350" y2="480" stroke="#4F7FFF" stroke-width="0.75"/>
+            </g>
+
+            <!-- Diagonal lattice clipped -->
+            <g clip-path="url(#shieldClip)" opacity="0.07">
+              <line x1="60" y1="30" x2="420" y2="480" stroke="#4F7FFF" stroke-width="1"/>
+              <line x1="420" y1="30" x2="60" y2="480" stroke="#4F7FFF" stroke-width="1"/>
+              <line x1="140" y1="30" x2="500" y2="480" stroke="#4F7FFF" stroke-width="1"/>
+              <line x1="-20" y1="30" x2="340" y2="480" stroke="#4F7FFF" stroke-width="1"/>
+            </g>
+
+            <!-- Animated scan line -->
+            <rect class="scan-line" x="60" y="0" width="360" height="2" fill="url(#glowLine)" clip-path="url(#shieldClip)"/>
+
+            <!-- Node dots at intersections -->
+            <g fill="#4F7FFF" filter="url(#glow)">
+              <circle cx="240" cy="30" r="3" opacity="0.9"/>
+              <circle cx="60" cy="100" r="2.5" opacity="0.6"/>
+              <circle cx="420" cy="100" r="2.5" opacity="0.6"/>
+              <circle cx="60" cy="240" r="2.5" opacity="0.6"/>
+              <circle cx="420" cy="240" r="2.5" opacity="0.6"/>
+              <circle cx="240" cy="460" r="3" opacity="0.9"/>
+
+              <!-- Inner nodes -->
+              <circle cx="240" cy="150" r="2" opacity="0.8"/>
+              <circle cx="200" cy="200" r="1.5" opacity="0.5"/>
+              <circle cx="280" cy="200" r="1.5" opacity="0.5"/>
+              <circle cx="170" cy="270" r="1.5" opacity="0.5"/>
+              <circle cx="310" cy="270" r="1.5" opacity="0.5"/>
+              <circle cx="200" cy="330" r="1.5" opacity="0.4"/>
+              <circle cx="280" cy="330" r="1.5" opacity="0.4"/>
+              <circle cx="240" cy="390" r="2" opacity="0.6"/>
+            </g>
+
+            <!-- Center checkmark -->
+            <g filter="url(#glow)">
+              <path d="M210 248l20 20 40-42" stroke="#4F7FFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.95"/>
+            </g>
+
+            <!-- Pulse ring -->
+            <circle class="pulse-ring" cx="240" cy="250" r="42" stroke="#4F7FFF" stroke-width="1" fill="none" opacity="0.5"/>
+            <circle class="pulse-ring-2" cx="240" cy="250" r="58" stroke="#4F7FFF" stroke-width="0.5" fill="none" opacity="0.25"/>
+
+            <!-- Status indicators -->
+            <g class="status-indicators">
+              <rect x="310" y="170" width="90" height="28" rx="4" fill="#0D1F3C" stroke="#4F7FFF" stroke-width="0.75" opacity="0.9"/>
+              <circle cx="323" cy="184" r="3" fill="#4ade80"/>
+              <text x="332" y="188" fill="#8B9CC8" font-family="monospace" font-size="9">MONITORING</text>
+
+              <rect x="80" y="290" width="82" height="28" rx="4" fill="#0D1F3C" stroke="#4F7FFF" stroke-width="0.75" opacity="0.9"/>
+              <circle cx="93" cy="304" r="3" fill="#4F7FFF"/>
+              <text x="102" y="308" fill="#8B9CC8" font-family="monospace" font-size="9">ANALYZING</text>
+
+              <rect x="310" y="340" width="80" height="28" rx="4" fill="#0D1F3C" stroke="#1E3A5F" stroke-width="0.75" opacity="0.9"/>
+              <circle cx="323" cy="354" r="3" fill="#facc15"/>
+              <text x="332" y="358" fill="#8B9CC8" font-family="monospace" font-size="9">ALERTING</text>
+            </g>
+          </svg>
+        </div>
+
+      </div>
+
+      <!-- Ambient background orb -->
+      <div class="hero-orb" aria-hidden="true"></div>
+    </section>
+
+    <!-- ═══════════════════════════════ FEATURES ══════════════════════════ -->
+    <section class="section features-section" id="features">
+      <div class="container">
+        <div class="section-header reveal-up">
+          <div class="eyebrow">Capabilities</div>
+          <h2 class="section-title">Built for visibility at every layer</h2>
+          <p class="section-subtitle">
+            PHOENIX monitors what other tools overlook — kernel-level processes,
+            behavioral patterns, and event chains — giving your team the context
+            to act with precision.
+          </p>
+        </div>
+
+        <div class="features-grid">
+
+          <div class="feature-card reveal-up" style="--delay: 0ms">
+            <div class="feature-icon-wrap">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.35C17.25 22.15 21 17.25 21 12V7L12 2z" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h3 class="feature-title">Real-Time Process Monitoring</h3>
+            <p class="feature-desc">
+              Tracks active processes, spawned threads, and parent-child
+              relationships the moment they're created, not at the next polling
+              interval.
+            </p>
+          </div>
+
+          <div class="feature-card reveal-up" style="--delay: 80ms">
+            <div class="feature-icon-wrap">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.93 4.93l2.12 2.12M16.95 16.95l2.12 2.12M4.93 19.07l2.12-2.12M16.95 7.05l2.12-2.12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h3 class="feature-title">Suspicious Activity Detection</h3>
+            <p class="feature-desc">
+              Identifies anomalous system behaviors — unusual file access patterns,
+              privilege escalation attempts, and unexpected network calls — with
+              rule-based and heuristic detection.
+            </p>
+          </div>
+
+          <div class="feature-card reveal-up" style="--delay: 160ms">
+            <div class="feature-icon-wrap">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M9 11h4M11 9v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h3 class="feature-title">Threat Analysis</h3>
+            <p class="feature-desc">
+              Correlates events across time to distinguish isolated anomalies from
+              coordinated attack sequences, reducing noise and alert fatigue.
+            </p>
+          </div>
+
+          <div class="feature-card reveal-up" style="--delay: 240ms">
+            <div class="feature-icon-wrap">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M3 9h18M9 21V9" stroke="currentColor" stroke-width="1.5"/>
+                <rect x="13" y="13" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1"/>
+              </svg>
+            </div>
+            <h3 class="feature-title">Security Dashboard</h3>
+            <p class="feature-desc">
+              A unified, real-time view of system state, active sessions, and
+              recent detections — without synthetic scores or misleading gauges.
+            </p>
+          </div>
+
+          <div class="feature-card reveal-up" style="--delay: 320ms">
+            <div class="feature-icon-wrap">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8L14 2z" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h3 class="feature-title">Incident Logging</h3>
+            <p class="feature-desc">
+              Structured, timestamped event records with full context — process
+              name, PID, user, path, and classification — ready for forensic
+              review and export.
+            </p>
+          </div>
+
+          <div class="feature-card reveal-up" style="--delay: 400ms">
+            <div class="feature-icon-wrap">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <rect x="2" y="3" width="20" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M8 21h8M12 17v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M7 8h2M7 11h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <rect x="13" y="7" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1"/>
+              </svg>
+            </div>
+            <h3 class="feature-title">System Monitoring</h3>
+            <p class="feature-desc">
+              Tracks resource usage, open file descriptors, network sockets,
+              and kernel events to give a complete picture of host health and
+              exposure surface.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════ HOW IT WORKS ══════════════════════ -->
+    <section class="section how-section" id="how-it-works">
+      <div class="container">
+        <div class="section-header reveal-up">
+          <div class="eyebrow">Workflow</div>
+          <h2 class="section-title">From signal to response</h2>
+          <p class="section-subtitle">
+            PHOENIX operates in a continuous four-phase cycle — continuously
+            collecting, processing, evaluating, and enabling action.
+          </p>
+        </div>
+
+        <div class="how-steps">
+
+          <div class="how-step reveal-up" style="--delay: 0ms">
+            <div class="step-track">
+              <div class="step-node">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5"/>
+                  <path d="M2 12h4M18 12h4M12 2v4M12 18v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <div class="step-line" aria-hidden="true"></div>
+            </div>
+            <div class="step-body">
+              <span class="step-label">Phase 01</span>
+              <h3 class="step-title">Monitor</h3>
+              <p class="step-desc">
+                Continuous collection of process activity, system calls, file
+                system events, and network connections from the host kernel and OS.
+              </p>
+            </div>
+          </div>
+
+          <div class="how-step reveal-up" style="--delay: 100ms">
+            <div class="step-track">
+              <div class="step-node">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M2 12h6l2 7 4-14 2 7h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div class="step-line" aria-hidden="true"></div>
+            </div>
+            <div class="step-body">
+              <span class="step-label">Phase 02</span>
+              <h3 class="step-title">Analyze</h3>
+              <p class="step-desc">
+                Raw event streams are parsed, normalized, and evaluated against
+                behavioral baselines and detection rules in a structured pipeline.
+              </p>
+            </div>
+          </div>
+
+          <div class="how-step reveal-up" style="--delay: 200ms">
+            <div class="step-track">
+              <div class="step-node">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" stroke="currentColor" stroke-width="1.5"/>
+                  <path d="M12 9v4M12 17h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <div class="step-line" aria-hidden="true"></div>
+            </div>
+            <div class="step-body">
+              <span class="step-label">Phase 03</span>
+              <h3 class="step-title">Detect</h3>
+              <p class="step-desc">
+                Suspicious patterns trigger classified alerts with full event
+                context — severity, affected process, user, and detection
+                rule — logged immediately.
+              </p>
+            </div>
+          </div>
+
+          <div class="how-step reveal-up" style="--delay: 300ms">
+            <div class="step-track">
+              <div class="step-node">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <polyline points="13 2 13 9 20 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  <path d="M21 14.5v1.5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8" stroke="currentColor" stroke-width="1.5"/>
+                  <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+            <div class="step-body">
+              <span class="step-label">Phase 04</span>
+              <h3 class="step-title">Respond</h3>
+              <p class="step-desc">
+                Security teams receive structured incident reports with triage
+                guidance, enabling fast, informed decisions without chasing
+                incomplete data.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════ PLATFORM ══════════════════════════ -->
+    <section class="section platform-section" id="platform">
+      <div class="container">
+        <div class="section-header reveal-up">
+          <div class="eyebrow">Platform Overview</div>
+          <h2 class="section-title">Every component, working together</h2>
+          <p class="section-subtitle">
+            PHOENIX is built as interconnected modules — each with a clear
+            responsibility in the security pipeline.
+          </p>
+        </div>
+
+        <div class="platform-grid">
+
+          <div class="platform-card platform-card--large reveal-up" style="--delay: 0ms">
+            <div class="platform-card-header">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M3 9h18M9 21V9" stroke="currentColor" stroke-width="1.5"/>
+              </svg>
+              <span class="platform-badge">Interface</span>
+            </div>
+            <h3 class="platform-title">Dashboard</h3>
+            <p class="platform-desc">
+              The operator interface for PHOENIX. Displays live system state,
+              recent detections, active sessions, and log history. Designed
+              around the information security teams need — no filler panels
+              or vanity metrics.
+            </p>
+            <ul class="platform-details">
+              <li>Live process tree view</li>
+              <li>Detection event timeline</li>
+              <li>Alert triage queue</li>
+              <li>Session and user tracking</li>
+            </ul>
+          </div>
+
+          <div class="platform-card reveal-up" style="--delay: 80ms">
+            <div class="platform-card-header">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M18 20V10M12 20V4M6 20v-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+              <span class="platform-badge">Core</span>
+            </div>
+            <h3 class="platform-title">Monitoring Engine</h3>
+            <p class="platform-desc">
+              The data collection layer. Hooks into OS-level event sources to
+              stream process, file system, and network events with low overhead
+              and structured output.
+            </p>
+          </div>
+
+          <div class="platform-card reveal-up" style="--delay: 160ms">
+            <div class="platform-card-header">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span class="platform-badge">Core</span>
+            </div>
+            <h3 class="platform-title">Detection Engine</h3>
+            <p class="platform-desc">
+              Processes the event stream against a rule set of known threat
+              behaviors and heuristics. Classifies detections by severity and
+              generates structured alert objects for downstream handling.
+            </p>
+          </div>
+
+          <div class="platform-card reveal-up" style="--delay: 240ms">
+            <div class="platform-card-header">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8L14 2z" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M14 2v6h6M16 13H8M16 17H8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+              <span class="platform-badge">Output</span>
+            </div>
+            <h3 class="platform-title">Reporting</h3>
+            <p class="platform-desc">
+              Structured incident reports with full event context, timestamps,
+              classification, and triage notes. Exportable and readable by
+              both engineers and non-technical stakeholders.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════ TECH STACK ═══════════════════════ -->
+    <section class="section stack-section" id="stack">
+      <div class="container">
+        <div class="section-header reveal-up">
+          <div class="eyebrow">Engineering</div>
+          <h2 class="section-title">Built with deliberate choices</h2>
+          <p class="section-subtitle">
+            Each technology in the PHOENIX stack was chosen for a specific
+            reason — performance, observability, or operational clarity.
+          </p>
+        </div>
+
+        <div class="stack-grid">
+          <div class="stack-item reveal-up" style="--delay: 0ms">
+            <div class="stack-icon">
+              <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                <circle cx="24" cy="24" r="20" stroke="var(--accent)" stroke-width="1.5" fill="none"/>
+                <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" fill="var(--accent)" font-family="monospace" font-weight="700" font-size="13">Py</text>
+              </svg>
+            </div>
+            <span class="stack-name">Python</span>
+            <span class="stack-role">Core runtime &amp; detection logic</span>
+          </div>
+
+          <div class="stack-item reveal-up" style="--delay: 60ms">
+            <div class="stack-icon">
+              <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                <rect x="8" y="8" width="32" height="32" rx="4" stroke="var(--accent)" stroke-width="1.5" fill="none"/>
+                <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" fill="var(--accent)" font-family="monospace" font-weight="700" font-size="11">psutil</text>
+              </svg>
+            </div>
+            <span class="stack-name">psutil</span>
+            <span class="stack-role">Process &amp; system introspection</span>
+          </div>
+
+          <div class="stack-item reveal-up" style="--delay: 120ms">
+            <div class="stack-icon">
+              <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                <polygon points="24,6 42,38 6,38" stroke="var(--accent)" stroke-width="1.5" fill="none"/>
+                <text x="50%" y="62%" dominant-baseline="middle" text-anchor="middle" fill="var(--accent)" font-family="monospace" font-weight="700" font-size="8">Flask</text>
+              </svg>
+            </div>
+            <span class="stack-name">Flask</span>
+            <span class="stack-role">API &amp; dashboard server</span>
+          </div>
+
+          <div class="stack-item reveal-up" style="--delay: 180ms">
+            <div class="stack-icon">
+              <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                <path d="M8 40L24 8l16 32H8z" stroke="var(--accent)" stroke-width="1.5" fill="none"/>
+                <text x="50%" y="66%" dominant-baseline="middle" text-anchor="middle" fill="var(--accent)" font-family="monospace" font-weight="700" font-size="7">SQLite</text>
+              </svg>
+            </div>
+            <span class="stack-name">SQLite</span>
+            <span class="stack-role">Incident log persistence</span>
+          </div>
+
+          <div class="stack-item reveal-up" style="--delay: 240ms">
+            <div class="stack-icon">
+              <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                <rect x="6" y="6" width="16" height="16" rx="2" stroke="var(--accent)" stroke-width="1.5" fill="none"/>
+                <rect x="26" y="6" width="16" height="16" rx="2" stroke="var(--accent)" stroke-width="1.5" fill="none"/>
+                <rect x="6" y="26" width="16" height="16" rx="2" stroke="var(--accent)" stroke-width="1.5" fill="none"/>
+                <rect x="26" y="26" width="16" height="16" rx="2" stroke="var(--accent)" stroke-width="1.5" fill="none"/>
+              </svg>
+            </div>
+            <span class="stack-name">HTML / CSS / JS</span>
+            <span class="stack-role">Dashboard frontend</span>
+          </div>
+
+          <div class="stack-item reveal-up" style="--delay: 300ms">
+            <div class="stack-icon">
+              <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                <circle cx="24" cy="24" r="8" stroke="var(--accent)" stroke-width="1.5" fill="none"/>
+                <circle cx="24" cy="24" r="18" stroke="var(--accent)" stroke-width="1" fill="none" stroke-dasharray="3 4"/>
+              </svg>
+            </div>
+            <span class="stack-name">WebSockets</span>
+            <span class="stack-role">Live event streaming</span>
+          </div>
+
+          <div class="stack-item reveal-up" style="--delay: 360ms">
+            <div class="stack-icon">
+              <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                <path d="M8 16h32M8 24h24M8 32h16" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <span class="stack-name">JSON / Logging</span>
+            <span class="stack-role">Structured event records</span>
+          </div>
+
+          <div class="stack-item reveal-up" style="--delay: 420ms">
+            <div class="stack-icon">
+              <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                <rect x="10" y="10" width="28" height="28" rx="2" stroke="var(--accent)" stroke-width="1.5" fill="none"/>
+                <path d="M10 20h28M20 10v28" stroke="var(--accent)" stroke-width="1" stroke-dasharray="2 3"/>
+              </svg>
+            </div>
+            <span class="stack-name">Threading</span>
+            <span class="stack-role">Concurrent monitoring loops</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════ ABOUT ════════════════════════════ -->
+    <section class="section about-section" id="about">
+      <div class="container">
+        <div class="about-grid">
+          <div class="about-content reveal-left">
+            <div class="eyebrow">About the Project</div>
+            <h2 class="section-title">Why PHOENIX was built</h2>
+            <p class="about-body">
+              PHOENIX started from a straightforward question: what does a security
+              monitoring tool look like when it's built for engineers, not demos?
+            </p>
+            <p class="about-body">
+              Most existing tools are either too heavyweight for local use, too
+              opaque in their detection logic, or produce dashboards full of
+              fabricated confidence scores. PHOENIX is different — it monitors
+              real system events, applies deterministic detection rules, and
+              presents the results plainly.
+            </p>
+            <p class="about-body">
+              This project demonstrates practical systems programming, security
+              engineering, real-time data pipelines, and dashboard design working
+              together as a coherent platform.
+            </p>
+            <div class="about-tags">
+              <span class="tag">Security Engineering</span>
+              <span class="tag">Systems Programming</span>
+              <span class="tag">Real-Time Pipelines</span>
+              <span class="tag">Incident Response</span>
+            </div>
+          </div>
+
+          <div class="about-visual reveal-right" aria-hidden="true">
+            <div class="terminal-window">
+              <div class="terminal-bar">
+                <span class="terminal-dot t-red"></span>
+                <span class="terminal-dot t-yellow"></span>
+                <span class="terminal-dot t-green"></span>
+                <span class="terminal-title">phoenix — monitor.py</span>
+              </div>
+              <div class="terminal-body" id="terminal-body">
+                <div class="t-line"><span class="t-dim">$</span> <span class="t-cmd">python monitor.py --start</span></div>
+                <div class="t-line"><span class="t-info">[INFO]</span> PHOENIX engine starting…</div>
+                <div class="t-line"><span class="t-info">[INFO]</span> Loading detection rules: 42 rules loaded</div>
+                <div class="t-line"><span class="t-info">[INFO]</span> Connecting to process stream…</div>
+                <div class="t-line"><span class="t-ok">[OK]</span>&nbsp;&nbsp; Monitoring active — PID 8412</div>
+                <div class="t-line t-gap"></div>
+                <div class="t-line t-typewriter" id="tty-events"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════ FOOTER ═══════════════════════════════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+
+        <div class="footer-brand">
+          <a href="#" class="nav-logo footer-logo" aria-label="PHOENIX">
+            <svg class="logo-mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M16 2L4 8v8c0 7.18 5.16 13.9 12 15.93C22.84 29.9 28 23.18 28 16V8L16 2z" stroke="var(--accent)" stroke-width="1.5" fill="none"/>
+              <path d="M16 7L9 10.5V16c0 4.19 3.01 8.11 7 9.28 3.99-1.17 7-5.09 7-9.28v-5.5L16 7z" fill="var(--accent)" opacity="0.15"/>
+              <path d="M12 16l2.5 2.5L20 13" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="logo-text">PHOENIX</span>
+          </a>
+          <p class="footer-tagline">
+            Real-time security monitoring<br />and threat detection.
+          </p>
+        </div>
+
+        <div class="footer-nav-group">
+          <h4 class="footer-heading">Platform</h4>
+          <ul class="footer-links">
+            <li><a href="#features">Features</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#platform">Platform</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-nav-group">
+          <h4 class="footer-heading">Project</h4>
+          <ul class="footer-links">
+            <li><a href="#stack">Tech Stack</a></li>
+            <li><a href="#about">About</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-clock-block">
+          <h4 class="footer-heading">System Time</h4>
+          <div class="footer-clock" id="footer-clock" aria-live="polite" aria-atomic="true"></div>
+          <div class="footer-tz">Asia/Kolkata · IST</div>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <p class="footer-copy">
+          PHOENIX &mdash; Security Monitoring Platform &mdash; A student project
+          demonstrating real-time systems and threat detection engineering.
+        </p>
+        <p class="footer-copy footer-copy--dim">
+          Built with Python, Flask, psutil, WebSockets, SQLite.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="landing.js"></script>
+</body>
+</html>

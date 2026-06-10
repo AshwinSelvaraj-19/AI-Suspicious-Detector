@@ -634,3 +634,468 @@ tbody tr.selected-row {
         grid-template-columns: 1fr;
     }
 }
+
+/* ==========================================================================
+   VIEW SWITCHING
+   ========================================================================== */
+
+.hidden { display: none !important; }
+
+/* Fade-in animation on view switch */
+@keyframes viewFadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+#dashboardView,
+#threatView {
+    animation: viewFadeIn 0.25s ease;
+}
+
+/* ==========================================================================
+   THREAT MONITOR VIEW LAYOUT
+   ========================================================================== */
+
+.threat-monitor-grid {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: 24px;
+    align-items: start;
+}
+
+/* ==========================================================================
+   DASHBOARD VIEW — CHARTS ROW
+   ========================================================================== */
+
+.dashboard-charts-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 24px;
+}
+
+/* ==========================================================================
+   RUNNING PROCESSES TABLE
+   ========================================================================== */
+
+.processes-panel {
+    margin-top: 24px;
+}
+
+/* Scrollable wrapper — shows all rows without capping */
+.processes-table-wrapper {
+    overflow-y: auto;
+    max-height: 380px;
+}
+
+/* Status column badges */
+.status-safe {
+    background-color: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    color: var(--success);
+}
+
+.status-monitoring {
+    background-color: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.25);
+    color: var(--warning);
+}
+
+/* ==========================================================================
+   RESPONSIVE — NEW LAYOUTS
+   ========================================================================== */
+
+@media (max-width: 1100px) {
+    .threat-monitor-grid  { grid-template-columns: 1fr; }
+    .dashboard-charts-row { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+    .processes-table-wrapper { max-height: 280px; }
+}
+
+/* ==========================================================================
+   THREAT ACTION BUTTONS
+   ========================================================================== */
+
+.threat-actions {
+    display: flex;
+    gap: 10px;
+    padding: 14px 20px;
+    border-top: 1px solid var(--border);
+    background-color: rgba(0, 0, 0, 0.15);
+}
+
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 18px;
+    border-radius: 4px;
+    font-family: var(--font-sans);
+    font-size: 0.76rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.btn-icon {
+    font-size: 0.9rem;
+    line-height: 1;
+}
+
+/* Primary — Analyze */
+.action-btn-primary {
+    background-color: rgba(14, 165, 233, 0.1);
+    border-color: rgba(14, 165, 233, 0.35);
+    color: var(--primary);
+}
+
+.action-btn-primary:hover:not(:disabled) {
+    background-color: rgba(14, 165, 233, 0.2);
+    border-color: rgba(14, 165, 233, 0.6);
+    box-shadow: 0 0 14px rgba(14, 165, 233, 0.2);
+    transform: translateY(-1px);
+}
+
+/* Secondary — Open Location */
+.action-btn-secondary {
+    background-color: rgba(139, 92, 246, 0.08);
+    border-color: rgba(139, 92, 246, 0.3);
+    color: var(--purple);
+}
+
+.action-btn-secondary:hover:not(:disabled) {
+    background-color: rgba(139, 92, 246, 0.18);
+    border-color: rgba(139, 92, 246, 0.55);
+    box-shadow: 0 0 14px rgba(139, 92, 246, 0.2);
+    transform: translateY(-1px);
+}
+
+/* Disabled state */
+.action-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+/* Active press */
+.action-btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+/* ==========================================================================
+   ANALYZE MODAL
+   ========================================================================== */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(2, 4, 8, 0.75);
+    backdrop-filter: blur(16px);
+    z-index: 9000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    animation: modalFadeIn 0.2s ease;
+}
+
+.modal-overlay.hidden {
+    display: none !important;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.modal-box {
+    background-color: rgba(9, 13, 22, 0.95);
+    border: 1px solid rgba(14, 165, 233, 0.2);
+    border-radius: 6px;
+    width: 100%;
+    max-width: 580px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(14, 165, 233, 0.06);
+    animation: slideInModal 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+}
+
+@keyframes slideInModal {
+    from { transform: translateY(-18px) scale(0.97); opacity: 0; }
+    to   { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 22px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #e2e8f0;
+    letter-spacing: 0.04em;
+    flex-shrink: 0;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    color: #64748b;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: color 0.15s ease, background-color 0.15s ease;
+    line-height: 1;
+}
+
+.modal-close:hover {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.06);
+}
+
+.modal-content {
+    padding: 22px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+/* Loading spinner */
+.modal-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 50px 20px;
+    color: #64748b;
+    font-size: 0.8rem;
+}
+
+.modal-spinner {
+    width: 32px;
+    height: 32px;
+    border: 2px solid rgba(14, 165, 233, 0.15);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spinModal 0.7s linear infinite;
+}
+
+@keyframes spinModal {
+    to { transform: rotate(360deg); }
+}
+
+/* Analysis result rows */
+.modal-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.modal-row {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.modal-row:last-child {
+    border-bottom: none;
+}
+
+.modal-label {
+    font-size: 0.62rem;
+    color: #64748b;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+}
+
+.modal-value {
+    font-size: 0.8rem;
+    color: #e2e8f0;
+    font-weight: 500;
+    word-break: break-all;
+}
+
+.modal-value.font-mono {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: #94a3b8;
+}
+
+/* Signature status badge */
+.sig-valid {
+    color: var(--success);
+    font-weight: 700;
+}
+
+.sig-invalid {
+    color: var(--danger);
+    font-weight: 700;
+}
+
+.sig-unknown {
+    color: #64748b;
+    font-weight: 600;
+}
+
+/* VirusTotal result badge */
+.vt-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 10px;
+    border-radius: 3px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    border: 1px solid transparent;
+}
+
+.vt-clean {
+    background-color: rgba(16, 185, 129, 0.1);
+    border-color: rgba(16, 185, 129, 0.25);
+    color: var(--success);
+}
+
+.vt-malicious {
+    background-color: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.25);
+    color: var(--danger);
+}
+
+.vt-suspicious {
+    background-color: rgba(245, 158, 11, 0.1);
+    border-color: rgba(245, 158, 11, 0.25);
+    color: var(--warning);
+}
+
+.vt-unknown {
+    background-color: rgba(100, 116, 139, 0.1);
+    border-color: rgba(100, 116, 139, 0.25);
+    color: #64748b;
+}
+
+/* Trust Score bar */
+.trust-score-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.trust-score-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+}
+
+.trust-score-value {
+    font-weight: 700;
+    font-family: var(--font-mono);
+}
+
+.trust-bar-track {
+    height: 6px;
+    border-radius: 99px;
+    background-color: rgba(255, 255, 255, 0.06);
+    overflow: hidden;
+}
+
+.trust-bar-fill {
+    height: 100%;
+    border-radius: 99px;
+    width: 0%;
+    transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.trust-bar-high   { background: linear-gradient(90deg, #10b981, #34d399); }
+.trust-bar-medium { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+.trust-bar-low    { background: linear-gradient(90deg, #ef4444, #f87171); }
+
+/* Modal error state */
+.modal-error {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--danger);
+    font-size: 0.8rem;
+}
+
+.modal-error-icon {
+    font-size: 2rem;
+    margin-bottom: 12px;
+}
+
+/* ==========================================================================
+   TOAST NOTIFICATIONS
+   ========================================================================== */
+
+.toast-container {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none;
+}
+
+.toast {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 18px;
+    border-radius: 4px;
+    font-size: 0.77rem;
+    font-weight: 500;
+    max-width: 340px;
+    pointer-events: auto;
+    animation: toastSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    border: 1px solid transparent;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.toast.toast-success {
+    background-color: rgba(16, 185, 129, 0.12);
+    border-color: rgba(16, 185, 129, 0.3);
+    color: #34d399;
+}
+
+.toast.toast-error {
+    background-color: rgba(239, 68, 68, 0.12);
+    border-color: rgba(239, 68, 68, 0.3);
+    color: #f87171;
+}
+
+.toast.toast-info {
+    background-color: rgba(14, 165, 233, 0.12);
+    border-color: rgba(14, 165, 233, 0.3);
+    color: var(--primary);
+}
+
+.toast-icon {
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+@keyframes toastSlideIn {
+    from { transform: translateX(110%); opacity: 0; }
+    to   { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes toastFadeOut {
+    from { transform: translateX(0); opacity: 1; }
+    to   { transform: translateX(110%); opacity: 0; }
+}

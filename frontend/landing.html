@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PHOENIX — Phoenix AI Threat Intelligence Platform</title>
-  <link rel="stylesheet" href="landing.css" />
+  <link rel="stylesheet" href="/static/landing.css">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
 </head>
@@ -83,7 +83,7 @@
         </div>
       </div>
 
-      <button class="cta-btn" onclick="window.location.href='scan.html'">
+      <button class="cta-btn" onclick="window.location.href='/scan'">
         <span class="cta-inner">
           <svg class="cta-icon" viewBox="0 0 20 20" fill="none">
             <circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5"/>
@@ -114,7 +114,7 @@
     </div>
     <div class="hud hud-bl">
       <div class="hud-label">PHOENIX ENGINE</div>
-      <div class="hud-val">v5.0.0</div>
+      <div class="hud-val">v1.1</div>
     </div>
     <div class="hud hud-br">
       <div class="hud-clock" id="live-clock"></div>
@@ -161,6 +161,6 @@
   </section>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="landing.js"></script>
+  <script src="/static/landing.js"></script>
 </body>
 </html>

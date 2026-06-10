@@ -144,7 +144,7 @@ const scanInterval = setInterval(() => {
         addLog("Phoenix Security Core fully online.", "success");
 
         setTimeout(() => {
-            window.location.href = "dashboard.html";
+            window.location.href = "/dashboard";
         }, 1200);
     }
 }, 100);

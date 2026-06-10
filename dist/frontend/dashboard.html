@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHOENIX — Real-Time Security Monitor</title>
+    <link rel="stylesheet" href="/static/dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+
+<!-- THREE JS BACKGROUND -->
+<div id="three-container"></div>
+
+<!-- GRID OVERLAY -->
+<div class="grid-overlay"></div>
+
+<!-- OFFLINE OVERLAY -->
+<div id="offlineOverlay" class="offline-overlay hidden">
+    <div class="offline-box">
+        <div class="offline-icon">⚠️</div>
+        <h2>PHOENIX OFFLINE</h2>
+        <p>Telemetry stream interrupted. Attempting to reconnect to Security API...</p>
+    </div>
+</div>
+
+<div class="app-container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="logo-section">
+            <span class="logo-icon">⌬</span>
+            <div>
+                <h1>PHOENIX</h1>
+                <p>Threat Detection System</p>
+            </div>
+        </div>
+
+        <nav>
+            <a href="#" id="navDashboard" class="nav-item active">
+                <span class="nav-icon">📊</span>
+                Dashboard
+            </a>
+            <a href="#" id="navThreatMonitor" class="nav-item">
+                <span class="nav-icon">🛡️</span>
+                Threat Monitor
+            </a>
+        </nav>
+    </aside>
+
+    <!-- CONTENT -->
+    <main class="main-content">
+
+        <!-- TOP BAR -->
+        <header class="topbar">
+            <div class="brand-title">
+                <h2>PHOENIX</h2>
+                <span>Real-Time Security Monitor</span>
+            </div>
+            
+            <div class="topbar-right">
+                <!-- System Status Panel -->
+                <div id="systemStatusPanel" class="status-panel secure">
+                    <span class="status-dot"></span>
+                    <span id="statusText">SYSTEM SECURE</span>
+                </div>
+                <div class="clock-display">
+                    <span id="liveClock">00:00:00</span> <span class="utc-label">UTC</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- ═══════════════════════════════════════════════ -->
+        <!-- DASHBOARD VIEW (visible by default)           -->
+        <!-- ═══════════════════════════════════════════════ -->
+        <div id="dashboardView">
+
+            <!-- OVERVIEW CARDS -->
+            <section class="overview-grid">
+                <div class="stat-card">
+                    <div class="card-label">Total Processes</div>
+                    <div id="totalProcesses" class="card-value font-mono">0</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="card-label">Suspicious Processes</div>
+                    <div id="threatCount" class="card-value font-mono">0</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="card-label">High Risk Processes</div>
+                    <div id="highRisk" class="card-value danger font-mono">0</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="card-label">CPU Usage</div>
+                    <div id="cpuGauge" class="card-value cyan font-mono">0%</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="card-label">RAM Usage</div>
+                    <div id="ramGauge" class="card-value purple font-mono">0%</div>
+                </div>
+            </section>
+
+            <!-- RUNNING PROCESSES TABLE -->
+            <div class="card-panel table-panel processes-panel">
+                <div class="panel-header">Running Processes</div>
+                <div class="table-wrapper processes-table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 80px;">PID</th>
+                                <th>Process Name</th>
+                                <th style="width: 90px;">CPU %</th>
+                                <th style="width: 90px;">RAM %</th>
+                                <th style="width: 110px;">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="processesTable">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- LIVE CHARTS -->
+            <div class="dashboard-charts-row">
+                <div class="card-panel chart-panel">
+                    <div class="panel-header">Live CPU Graph</div>
+                    <div class="chart-container">
+                        <canvas id="cpuChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="card-panel chart-panel">
+                    <div class="panel-header">Live RAM Graph</div>
+                    <div class="chart-container">
+                        <canvas id="ramChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ═══════════════════════════════════════════════ -->
+        <!-- THREAT MONITOR VIEW (hidden by default)        -->
+        <!-- ═══════════════════════════════════════════════ -->
+        <div id="threatView" class="hidden">
+            <div class="threat-monitor-grid">
+
+                <!-- LEFT: THREAT TABLE (moved from dashboardView) -->
+                <div class="card-panel table-panel">
+                    <div class="panel-header">Live Threat Table</div>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th style="width: 80px;">PID</th>
+                                    <th>Process Name</th>
+                                    <th style="width: 90px;">Risk Score</th>
+                                    <th style="width: 100px;">Threat Level</th>
+                                    <th style="width: 110px;">Location</th>
+                                    <th>Executable Path</th>
+                                </tr>
+                            </thead>
+                            <tbody id="threatTable">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- RIGHT: THREAT DETAILS (moved from dashboardView) -->
+                <div class="card-panel details-panel">
+                    <div class="panel-header">Threat Details Panel</div>
+                    <div id="detailsContent" class="details-content">
+                        <div class="details-empty">
+                            No active threats detected.<br><br>Process details will appear here when a suspicious process is identified.
+                        </div>
+                    </div>
+                    <!-- THREAT ACTION BUTTONS -->
+                    <div class="threat-actions" id="threatActions">
+                        <button id="btnOpenLocation" class="action-btn action-btn-secondary" disabled>
+                            <span class="btn-icon">📂</span> Open Location
+                        </button>
+                        <button id="btnAnalyze" class="action-btn action-btn-primary" disabled>
+                            <span class="btn-icon">🔬</span> Analyze
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+</div>
+
+<!-- ANALYZE MODAL -->
+<div id="analyzeModal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-box">
+        <div class="modal-header">
+            <span id="modalTitle">🔬 Deep Process Analysis</span>
+            <button id="closeModal" class="modal-close" aria-label="Close">✕</button>
+        </div>
+        <div id="modalContent" class="modal-content">
+            <!-- Populated dynamically -->
+        </div>
+    </div>
+</div>
+
+<!-- TOAST NOTIFICATION CONTAINER -->
+<div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+<script src="/static/dashboard.js"></script>
+</body>
+</html>

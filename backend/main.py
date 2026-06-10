@@ -8,8 +8,31 @@ from detector import get_suspicious_processes
 from summary import get_summary
 from system_stats import get_system_stats
 from fastapi.middleware.cors import CORSMiddleware
+from analyze import analyze_process
+from open_location import open_file_location
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+import os
 
 app = FastAPI(title="Phoenix Security Core")
+
+# ==========================
+# FRONTEND CONFIG
+# ==========================
+
+frontend_path = os.path.abspath(
+    os.path.join(
+        os.path.dirname(__file__),
+        "..",
+        "frontend"
+    )
+)
+
+app.mount(
+    "/static",
+    StaticFiles(directory=frontend_path),
+    name="static"
+)
 
 app.add_middleware(
     CORSMiddleware,
@@ -40,7 +63,33 @@ def update_history_log(suspicious_list):
 
 @app.get("/")
 def home():
-    return {"message": "Phoenix Threat Detection System API Running"}
+    return FileResponse(
+        os.path.join(
+            frontend_path,
+            "landing.html"
+        )
+    )
+
+
+@app.get("/dashboard")
+def dashboard():
+    return FileResponse(
+        os.path.join(
+            frontend_path,
+            "dashboard.html"
+        )
+    )
+
+
+@app.get("/scan")
+def scan():
+    return FileResponse(
+        os.path.join(
+            frontend_path,
+            "scan.html"
+        )
+    )
+
 
 @app.get("/processes")
 def get_processes():
@@ -65,7 +114,7 @@ def summary():
 @app.get("/system_stats")
 def system():
     return get_system_stats()
-
+    
 @app.get("/history")
 def get_history():
     # Return history list sorted by timestamp descending
@@ -150,3 +199,22 @@ def get_report(format: str = "json"):
         "system_metrics": system_metrics,
         "suspicious_processes": suspicious_list
     }
+
+
+
+@app.get("/analyze/{pid}")
+def analyze(pid: int):
+    return analyze_process(pid)
+
+@app.post("/open-location")
+def open_location(data: dict):
+
+    path = data.get("path")
+
+    success = open_file_location(path)
+
+    return {
+        "success": success
+    }   
+
+

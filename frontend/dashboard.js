@@ -32,6 +32,240 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Regular Telemetry Polling (every 5 seconds)
     setInterval(loadDashboard, 5000);
+
+    // ====================================
+    // VIEW SWITCHING
+    // ====================================
+    const navDashboard     = document.getElementById("navDashboard");
+    const navThreatMonitor = document.getElementById("navThreatMonitor");
+    const dashboardView    = document.getElementById("dashboardView");
+    const threatView       = document.getElementById("threatView");
+
+    function switchView(show, hide, navOn, navOff) {
+        show.classList.remove("hidden");
+        hide.classList.add("hidden");
+        navOn.classList.add("active");
+        navOff.classList.remove("active");
+    }
+
+    navDashboard.addEventListener("click", e => {
+        e.preventDefault();
+        switchView(dashboardView, threatView, navDashboard, navThreatMonitor);
+    });
+
+    navThreatMonitor.addEventListener("click", e => {
+        e.preventDefault();
+        switchView(threatView, dashboardView, navThreatMonitor, navDashboard);
+    });
+
+    // Initial Processes Fetch
+    loadProcesses();
+
+    // Poll processes alongside dashboard telemetry (every 5 seconds)
+    setInterval(loadProcesses, 5000);
+
+    // ====================================
+    // THREAT ACTION BUTTONS
+    // ====================================
+    const btnOpenLocation = document.getElementById("btnOpenLocation");
+    const btnAnalyze      = document.getElementById("btnAnalyze");
+    const analyzeModal    = document.getElementById("analyzeModal");
+    const closeModal      = document.getElementById("closeModal");
+
+    // Open Location
+    btnOpenLocation.addEventListener("click", async () => {
+        const proc = currentProcesses.find(p => p.pid === selectedPid);
+        if (!proc) return;
+
+        try {
+            const res = await fetch(`${API_BASE}/open-location`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ path: proc.exe })
+            });
+            const data = await res.json();
+            if (data.success) {
+                showToast("📂 File location opened successfully.", "success");
+            } else {
+                showToast("⚠️ Failed to open file location.", "error");
+            }
+        } catch (err) {
+            console.error("Open location error:", err);
+            showToast("❌ Could not reach the backend.", "error");
+        }
+    });
+
+    // Analyze
+    btnAnalyze.addEventListener("click", async () => {
+        if (!selectedPid) return;
+
+        // Show modal with loading state
+        const modalContent = document.getElementById("modalContent");
+        modalContent.innerHTML = `
+            <div class="modal-loading">
+                <div class="modal-spinner"></div>
+                <span>Analyzing process — this may take a moment…</span>
+            </div>
+        `;
+        analyzeModal.classList.remove("hidden");
+
+        try {
+            const res = await fetch(`${API_BASE}/analyze/${selectedPid}`);
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            const data = await res.json();
+
+            if (data.error) {
+                modalContent.innerHTML = `
+                    <div class="modal-error">
+                        <div class="modal-error-icon">⚠️</div>
+                        <div>${data.error}</div>
+                    </div>
+                `;
+                return;
+            }
+
+            // VirusTotal badge
+            const vt = data.virustotal;
+            let vtBadgeHtml = `<span class="vt-badge vt-unknown">⚪ Not checked</span>`;
+
+            if (vt && typeof vt === "object" && !("error" in vt)) {
+                // Valid result from VirusTotal
+                const malicious  = vt.malicious  || 0;
+                const suspicious = vt.suspicious || 0;
+                const harmless   = vt.harmless   || 0;
+                const undetected = vt.undetected || 0;
+                const total      = malicious + suspicious + harmless + undetected;
+
+                if (malicious > 0) {
+                    vtBadgeHtml = `<span class="vt-badge vt-malicious">🔴 ${malicious}/${total} engines flagged malicious</span>`;
+                } else if (suspicious > 0) {
+                    vtBadgeHtml = `<span class="vt-badge vt-suspicious">🟡 ${suspicious}/${total} engines flagged suspicious</span>`;
+                } else if (total > 0) {
+                    vtBadgeHtml = `<span class="vt-badge vt-clean">✅ Clean — 0/${total} detections</span>`;
+                } else {
+                    vtBadgeHtml = `<span class="vt-badge vt-unknown">⚪ No scan data available</span>`;
+                }
+            } else if (vt && "error" in vt) {
+                // Error response — show human-readable message
+                const code = vt.error;
+                let vtMsg;
+                if (code === 404) {
+                    vtMsg = "No VirusTotal report found — hash not in database";
+                } else if (code === 401 || code === 403) {
+                    vtMsg = "API key invalid or missing";
+                } else if (code === 429) {
+                    vtMsg = "VirusTotal rate limit reached — try again later";
+                } else if (typeof code === "string") {
+                    vtMsg = "Lookup failed — " + code;
+                } else {
+                    vtMsg = `Lookup failed (HTTP ${code})`;
+                }
+                vtBadgeHtml = `<span class="vt-badge vt-unknown">⚪ ${vtMsg}</span>`;
+            }
+
+            // Signature status
+            const sigStatus = data.signature_status || "Unknown";
+            const sigClass = sigStatus.toLowerCase().includes("valid") ? "sig-valid"
+                           : sigStatus.toLowerCase().includes("invalid") ? "sig-invalid"
+                           : "sig-unknown";
+
+            // Trust score
+            let trustHtml = `<span class="modal-value" style="color:#64748b;">Not available</span>`;
+            if (data.trust_score !== undefined && data.trust_score !== null) {
+                const score = Math.max(0, Math.min(100, data.trust_score));
+                const barClass = score >= 70 ? "trust-bar-high" : score >= 40 ? "trust-bar-medium" : "trust-bar-low";
+                const scoreColor = score >= 70 ? "var(--success)" : score >= 40 ? "var(--warning)" : "var(--danger)";
+                trustHtml = `
+                    <div class="trust-score-wrap">
+                        <div class="trust-score-label">
+                            <span style="color:#64748b; font-size:0.72rem;">Trust Level</span>
+                            <span class="trust-score-value" style="color:${scoreColor}">${score}/100</span>
+                        </div>
+                        <div class="trust-bar-track">
+                            <div class="trust-bar-fill ${barClass}" id="trustBarFill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            modalContent.innerHTML = `
+    <div class="modal-grid">
+        <div class="modal-row">
+            <span class="modal-label">Process Name</span>
+            <span class="modal-value" style="color:#fff; font-weight:700;">${data.process_name || "N/A"}</span>
+        </div>
+
+        <div class="modal-row">
+            <span class="modal-label">Publisher</span>
+            <span class="modal-value">${data.publisher || "Unknown / Unsigned"}</span>
+        </div>
+
+        <div class="modal-row">
+            <span class="modal-label">Signature Status</span>
+            <span class="modal-value ${sigClass}">${sigStatus}</span>
+        </div>
+
+        <div class="modal-row">
+            <span class="modal-label">SHA-256</span>
+            <span class="modal-value font-mono" title="${data.sha256 || ""}">
+                ${data.sha256 ? data.sha256.substring(0, 32) + "…" : "N/A"}
+            </span>
+        </div>
+
+        <div class="modal-row">
+            <span class="modal-label">VirusTotal Results</span>
+            ${vtBadgeHtml}
+        </div>
+
+        <div class="modal-row">
+            <span class="modal-label">Verdict</span>
+            <span class="modal-value">${data.verdict || "Unknown"}</span>
+        </div>
+
+        <div class="modal-row">
+            <span class="modal-label">Trust Score</span>
+            ${trustHtml}
+        </div>
+    </div>
+`;
+
+            // Animate trust bar after DOM paint
+            if (data.trust_score !== undefined && data.trust_score !== null) {
+                requestAnimationFrame(() => {
+                    const fill = document.getElementById("trustBarFill");
+                    if (fill) fill.style.width = Math.max(0, Math.min(100, data.trust_score)) + "%";
+                });
+            }
+
+        } catch (err) {
+            console.error("Analyze error:", err);
+            document.getElementById("modalContent").innerHTML = `
+                <div class="modal-error">
+                    <div class="modal-error-icon">❌</div>
+                    <div>Analysis failed: ${err.message}</div>
+                </div>
+            `;
+        }
+    });
+
+    // Close modal — X button
+    closeModal.addEventListener("click", () => {
+        analyzeModal.classList.add("hidden");
+    });
+
+    // Close modal — backdrop click
+    analyzeModal.addEventListener("click", (e) => {
+        if (e.target === analyzeModal) {
+            analyzeModal.classList.add("hidden");
+        }
+    });
+
+    // Close modal — Escape key
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && !analyzeModal.classList.contains("hidden")) {
+            analyzeModal.classList.add("hidden");
+        }
+    });
 });
 
 // ====================================
@@ -215,6 +449,7 @@ function updateDetailsPanel() {
     if (!container) return;
 
     if (!selectedPid) {
+        updateActionButtons(false);
         container.innerHTML = `
             <div class="details-empty">
                 No active threats detected.<br><br>Process details will appear here when a suspicious process is identified.
@@ -228,6 +463,7 @@ function updateDetailsPanel() {
 
     if (!proc) {
         selectedPid = null;
+        updateActionButtons(false);
         container.innerHTML = `
             <div class="details-empty">
                 No active threats detected.<br><br>Process details will appear here when a suspicious process is identified.
@@ -298,6 +534,20 @@ function updateDetailsPanel() {
             </div>
         </div>
     `;
+
+    // Enable action buttons now that a process is selected
+    updateActionButtons(true);
+}
+
+// ====================================
+// ACTION BUTTON STATE MANAGEMENT
+// ====================================
+function updateActionButtons(enabled) {
+    const btnOpenLocation = document.getElementById("btnOpenLocation");
+    const btnAnalyze      = document.getElementById("btnAnalyze");
+    if (!btnOpenLocation || !btnAnalyze) return;
+    btnOpenLocation.disabled = !enabled;
+    btnAnalyze.disabled      = !enabled;
 }
 
 // Helpers
@@ -597,4 +847,80 @@ function initThreeBackground() {
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
     });
+}
+
+// ====================================
+// RUNNING PROCESSES TABLE
+// ====================================
+async function loadProcesses() {
+    try {
+        const res = await fetch(`${API_BASE}/processes`);
+        if (!res.ok) throw new Error("HTTP error");
+        const data = await res.json();
+        renderProcessesTable(data);
+    } catch (e) {
+        console.error("Phoenix Monitor — Failed to load processes:", e);
+    }
+}
+
+function renderProcessesTable(data) {
+    const tbody = document.getElementById("processesTable");
+    if (!tbody) return;
+
+    // Build a Set of suspicious PIDs for O(1) status lookup
+    const suspiciousPids = new Set(currentProcesses.map(p => p.pid));
+
+    tbody.innerHTML = "";
+
+    if (!data || data.length === 0) {
+        const row = document.createElement("tr");
+        const cell = document.createElement("td");
+        cell.colSpan = 5;
+        cell.className = "empty-cell";
+        cell.textContent = "No running processes found.";
+        row.appendChild(cell);
+        tbody.appendChild(row);
+        return;
+    }
+
+    // Show all rows — .processes-table-wrapper provides scroll
+    data.forEach(proc => {
+        const isMonitoring = suspiciousPids.has(proc.pid);
+        const statusClass  = isMonitoring ? "status-monitoring" : "status-safe";
+        const statusText   = isMonitoring ? "Monitoring" : "Safe";
+
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td class="font-mono" style="color: #64748b;">${proc.pid}</td>
+            <td class="font-mono" style="font-weight: 500; color: #fff;">${proc.name}</td>
+            <td class="font-mono" style="color: var(--primary);">${(proc.cpu_percent || 0).toFixed(1)}%</td>
+            <td class="font-mono" style="color: var(--purple);">${(proc.memory_percent || 0).toFixed(1)}%</td>
+            <td><span class="threat-badge ${statusClass}">${statusText}</span></td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
+// ====================================
+// TOAST NOTIFICATIONS
+// ====================================
+function showToast(message, type = "info") {
+    const container = document.getElementById("toastContainer");
+    if (!container) return;
+
+    const iconMap = { success: "✅", error: "❌", info: "ℹ️" };
+    const toast = document.createElement("div");
+    toast.className = `toast toast-${type}`;
+    toast.innerHTML = `
+        <span class="toast-icon">${iconMap[type] || "ℹ️"}</span>
+        <span>${message}</span>
+    `;
+
+    container.appendChild(toast);
+
+    // Auto-dismiss after 3.5s with slide-out animation
+    setTimeout(() => {
+        toast.style.animation = "toastFadeOut 0.35s ease forwards";
+        setTimeout(() => toast.remove(), 350);
+    }, 3500);
 }
