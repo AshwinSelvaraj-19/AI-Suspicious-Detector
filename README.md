@@ -1,52 +1,88 @@
-🛡️ AI Suspicious Detector
+# 🛡️ AI Suspicious Detector
 
-An AI-powered cybersecurity application designed to analyze files and identify potentially suspicious or malicious behavior through intelligent threat assessment techniques.
+AI Suspicious Detector is a cybersecurity-focused desktop application designed to assist users in analyzing potentially suspicious files through an intuitive interface and AI-assisted evaluation. The project combines a modern web-based dashboard with a Python-powered backend to provide a streamlined security analysis experience.
 
-📌 Overview
+---
 
-AI Suspicious Detector is a desktop-based cybersecurity tool that helps users inspect executable files and security-related artifacts through an intuitive interface.
+## 📖 Overview
 
-The system combines a modern frontend dashboard with a Python-powered backend to provide threat analysis, file inspection, and security-focused reporting.
+The purpose of this project is to provide users with a centralized platform for examining files that may exhibit suspicious characteristics. The application offers an easy-to-use interface for uploading and analyzing files while presenting the results in a clear and structured manner.
 
-✨ Features
-🔍 Suspicious file analysis
-🧠 AI-assisted threat evaluation
-📊 Security dashboard
-📁 File scanning interface
-⚡ FastAPI backend architecture
-🎨 Modern responsive UI
-📈 Real-time analysis reporting
-🖥️ Desktop executable support
-🔒 Local processing for enhanced privacy
-🏗️ Architecture
-Frontend (HTML/CSS/JS)
-            │
-            ▼
-      FastAPI Backend
-            │
-            ▼
-    Analysis Engine
-            │
-            ▼
-     Threat Assessment
-            │
-            ▼
-        Results UI
-🛠️ Tech Stack
-Frontend
-HTML5
-CSS3
-JavaScript
-Backend
-Python
-FastAPI
-Uvicorn
-Packaging
-PyInstaller
-AI Integration
-OpenRouter API
-LLM-based analysis
-📂 Project Structure
+This project was developed as a practical cybersecurity application, demonstrating concepts related to file inspection, threat assessment, AI integration, and modern software architecture.
+
+---
+
+## ✨ Key Features
+
+- 🔍 File Analysis Interface
+- 🧠 AI-Assisted Threat Assessment
+- 📊 Interactive Security Dashboard
+- ⚡ FastAPI Backend Architecture
+- 🎨 Modern and Responsive User Interface
+- 🖥️ Desktop Application Deployment
+- 📁 Secure File Upload Handling
+- 📈 Real-Time Analysis Results
+- 🔒 Local Application Execution
+- 📄 Structured Reporting System
+
+---
+
+## 🏗️ System Architecture
+
+```text
+┌─────────────────────┐
+│      Frontend       │
+│  HTML • CSS • JS    │
+└──────────┬──────────┘
+           │
+           ▼
+┌─────────────────────┐
+│   FastAPI Backend   │
+└──────────┬──────────┘
+           │
+           ▼
+┌─────────────────────┐
+│  Analysis Engine    │
+└──────────┬──────────┘
+           │
+           ▼
+┌─────────────────────┐
+│ AI Threat Assessment│
+└──────────┬──────────┘
+           │
+           ▼
+┌─────────────────────┐
+│   Result Dashboard  │
+└─────────────────────┘
+```
+
+---
+
+## 🛠️ Technology Stack
+
+### Frontend
+- HTML5
+- CSS3
+- JavaScript
+
+### Backend
+- Python
+- FastAPI
+- Uvicorn
+
+### Desktop Deployment
+- PyInstaller
+- PyWebView
+
+### AI Integration
+- OpenRouter API
+- Large Language Models (LLMs)
+
+---
+
+## 📂 Project Structure
+
+```text
 AI-Suspicious-Detector/
 │
 ├── backend/
@@ -56,64 +92,144 @@ AI-Suspicious-Detector/
 │   └── requirements.txt
 │
 ├── frontend/
-│   ├── index.html
-│   ├── css/
-│   ├── js/
+│   ├── landing.html
+│   ├── landing.css
+│   ├── landing.js
 │   └── assets/
 │
 ├── dist/
 ├── build/
 ├── launcher.py
-└── README.md
-🚀 Installation
-Clone Repository
+├── README.md
+└── requirements.txt
+```
+
+---
+
+## 🚀 Installation
+
+### 1. Clone the Repository
+
+```bash
 git clone https://github.com/AshwinSelvaraj-19/AI-Suspicious-Detector.git
 cd AI-Suspicious-Detector
-Create Virtual Environment
+```
+
+### 2. Create a Virtual Environment
+
+```bash
 python -m venv venv
-Activate Environment
+```
 
-Windows:
+### 3. Activate the Virtual Environment
 
+#### Windows
+
+```bash
 venv\Scripts\activate
-Install Dependencies
+```
+
+#### Linux / macOS
+
+```bash
+source venv/bin/activate
+```
+
+### 4. Install Dependencies
+
+```bash
 pip install -r requirements.txt
-Run Backend
+```
+
+### 5. Start the Backend Server
+
+```bash
 uvicorn main:app --reload
-Open Frontend
-Open index.html
+```
 
-or launch through the desktop application.
+### 6. Launch the Application
 
-📖 Usage
-Launch the application.
-Select a file for analysis.
-Submit the file to the analysis engine.
-Review generated threat indicators.
-Examine AI-generated security insights.
-Take appropriate action based on findings.
-🔐 Security Notice
+Open the frontend interface or run the packaged desktop executable.
 
-This tool is intended for educational, research, and defensive security purposes only.
+---
 
-Results generated by the AI model should not be considered definitive malware verdicts. Always validate findings using multiple security tools and professional analysis methods.
+## 💻 Usage
 
-🎯 Future Improvements
-VirusTotal integration
-PE file static analysis
-YARA rule support
-DLL inspection
-Network behavior monitoring
-Sandbox execution
-Threat intelligence feeds
-PDF security reports
-Advanced malware classification
-👨‍💻 Author
+1. Launch the application.
+2. Navigate to the analysis dashboard.
+3. Upload a file for inspection.
+4. Start the analysis process.
+5. Review AI-generated findings.
+6. Examine threat indicators and assessment results.
+7. Export or document findings if required.
 
-Ashwin Selvaraj
+---
 
-Portfolio: Portfolio Website
-GitHub: GitHub Profile
-📜 License
+## 🎯 Project Objectives
+
+- Provide a user-friendly cybersecurity analysis platform.
+- Demonstrate the integration of AI into security workflows.
+- Improve accessibility to basic threat assessment tools.
+- Showcase modern full-stack application development.
+- Create a scalable foundation for future security enhancements.
+
+---
+
+## 🔒 Security Disclaimer
+
+AI Suspicious Detector is intended for educational, research, and defensive cybersecurity purposes only.
+
+The analysis results generated by the application should be considered advisory and must not replace professional malware analysis, enterprise security solutions, or dedicated threat intelligence platforms.
+
+Users should validate critical findings through additional security tools and expert review.
+
+---
+
+## 🔮 Future Enhancements
+
+- Malware Signature Detection
+- YARA Rule Integration
+- VirusTotal API Integration
+- Static PE File Analysis
+- Dynamic Sandbox Analysis
+- Threat Intelligence Feed Integration
+- Automated Security Reporting
+- Risk Scoring System
+- Advanced Behavioral Analysis
+- Enterprise Dashboard Support
+
+---
+
+## 📈 Learning Outcomes
+
+This project demonstrates knowledge and practical implementation of:
+
+- Cybersecurity Fundamentals
+- Full-Stack Development
+- REST API Development
+- FastAPI Framework
+- AI Integration
+- Desktop Application Packaging
+- Modern UI/UX Design
+- Software Architecture Principles
+- Secure Application Development
+
+---
+
+## 👨‍💻 Author
+
+**Ashwin Selvaraj**
+
+Bachelor of Computer Applications (BCA)  
+PSG College of Arts and Science
+
+**Portfolio:** https://ashwinselvaraj-19.github.io/PORTFOLIO/  
+**GitHub:** https://github.com/AshwinSelvaraj-19
+
+---
+
+## 📜 License
 
 This project is licensed under the MIT License.
+
+Feel free to use, modify, and distribute this project in accordance with the license terms.
