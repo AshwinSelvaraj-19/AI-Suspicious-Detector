@@ -11,7 +11,7 @@ The purpose of this project is to provide users with a centralized platform for 
 This project was developed as a practical cybersecurity application, demonstrating concepts related to file inspection, threat assessment, AI integration, and modern software architecture.
 
 ---
-
+  
 ## ✨ Key Features
 
 - 🔍 File Analysis Interface
